@@ -13,7 +13,7 @@ app_license = "GNU General Public License"
 
 # Includes in <head>
 # ------------------
-
+fixtures = ["Custom Field"]
 # include js, css files in header of desk.html
 # app_include_css = "/assets/sync_management/css/sync_management.css"
 # app_include_js = "/assets/sync_management/js/sync_management.js"
@@ -89,7 +89,7 @@ app_license = "GNU General Public License"
 
 doc_events = {
 	"Item": {
-		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
+		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",		
 	},
 	"Customer": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
@@ -127,58 +127,85 @@ doc_events = {
 	"User": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
 	},
+	"Custom Sync Naming": {
+		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
+	},
 
 	"Sales Order": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
 	},
 	"Delivery Note": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
 	},
 	"Sales Invoice": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Stock Entry":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Material Request":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Purchase Order":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Production Order":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Purchase Receipt":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Purchase Invoice":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Journal Entry":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Payment Entry":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Stock Reconciliation":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	},
 	"Landed Cost Voucher":{
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
+		"autoname" : "sync_management.sync_management.sync_server_settings.sync_autoname",
+
 	}
 }
 

@@ -106,6 +106,9 @@ def sync_master(self, method):
 
 @frappe.whitelist()
 def sync_save_document(self, method):
+	if self.is_sync == 0:
+		return
+
 	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
 	clientroot = FrappeClient(server_tujuan, "Administrator", "admin")
 
@@ -190,6 +193,9 @@ def sync_save_document(self, method):
 
 @frappe.whitelist()
 def sync_submit_document(self, method):
+	if self.is_sync == 0:
+		return
+
 	if self.get("amended_from"):
 		return
 	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
@@ -199,3 +205,17 @@ def sync_submit_document(self, method):
 		pr_doc = clientroot.get_doc(self.doctype,self.name)
 
 		clientroot.submit(pr_doc)
+
+@frappe.whitelist()
+def sync_autoname (self, method):
+	if self.is_sync == 0:
+		return
+
+	check_nama = frappe.get_all('Custom Sync Naming', filters={'name': self.doctype}, fields=['name'])
+
+	if not check_nama:
+		frappe.throw("Silahkan mengisi series untuk dokumen {} di sync ini di Custom Sync Naming.".format(self.doctype))
+	else:	
+		nama_series = frappe.get_doc("Custom Sync Naming", self.doctype)
+		from frappe.model.naming import make_autoname
+		self.name = make_autoname(nama_series.sync_naming_series)
