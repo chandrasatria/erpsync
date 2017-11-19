@@ -13,7 +13,7 @@ app_license = "GNU General Public License"
 
 # Includes in <head>
 # ------------------
-fixtures = ["Custom Field"]
+fixtures = ["Custom Field",{"doctype":"DocType","filters":{"module" : ["=","Sync Management"]} }]
 # include js, css files in header of desk.html
 # app_include_css = "/assets/sync_management/css/sync_management.css"
 # app_include_js = "/assets/sync_management/js/sync_management.js"
