@@ -10,7 +10,21 @@ import json
 
 class SyncServerSettings(Document):
 	pass
-
+	
+@frappe.whitelist()
+def sync_role_master(self, method):
+	# /home/frappe/frappe-bench/apps/frappe/frappe/core/doctype/role row 14, after insert WARNING
+	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
+	clientroot = FrappeClient(server_tujuan, "Administrator", "aeron123")
+	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
+	doc = frappe.get_doc(self.doctype, self.name)
+	pr_doc = {}
+	pr_doc.update({ "doctype": "Role" })
+	pr_doc.update({ "role_name": doc.role_name })
+	if docu_tujuan:
+		clientroot.update(pr_doc)
+	else:
+		clientroot.insert(pr_doc)
 
 @frappe.whitelist()
 def sync_master(self, method):

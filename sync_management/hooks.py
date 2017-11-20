@@ -130,7 +130,12 @@ doc_events = {
 	"Custom Sync Naming": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
 	},
-
+	"Role": {
+		"on_update": "sync_management.sync_management.sync_server_settings.sync_role_master",
+	},
+	"User": {
+		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
+	},
 	"Sales Order": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_save_document",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_document",
