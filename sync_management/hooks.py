@@ -99,6 +99,7 @@ doc_events = {
 	},
 	"BOM": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
+		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_master",
 	},
 	"Supplier": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",

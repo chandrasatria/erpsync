@@ -219,6 +219,18 @@ def sync_submit_document(self, method):
 		pr_doc = clientroot.get_doc(self.doctype,self.name)
 
 		clientroot.submit(pr_doc)
+		
+@frappe.whitelist()
+def sync_submit_master(self, method):
+	if self.get("amended_from"):
+		return
+	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
+	clientroot = FrappeClient(server_tujuan, "Administrator", "admin")
+	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
+	if docu_tujuan:
+		pr_doc = clientroot.get_doc(self.doctype,self.name)
+
+		clientroot.submit(pr_doc)
 
 @frappe.whitelist()
 def sync_autoname (self, method):
