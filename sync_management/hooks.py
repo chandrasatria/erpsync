@@ -100,6 +100,7 @@ doc_events = {
 	"BOM": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
 		"on_submit": "sync_management.sync_management.sync_server_settings.sync_submit_master",
+		"on_update_after_submit": "sync_management.sync_management.sync_server_settings.sync_master_after_submit",
 	},
 	"Supplier": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
@@ -125,9 +126,7 @@ doc_events = {
 	"Sales Person": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
 	},
-	"User": {
-		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
-	},
+
 	"Custom Sync Naming": {
 		"on_update": "sync_management.sync_management.sync_server_settings.sync_master",
 	},

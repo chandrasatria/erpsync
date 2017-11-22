@@ -15,7 +15,7 @@ class SyncServerSettings(Document):
 def sync_role_master(self, method):
 	# /home/frappe/frappe-bench/apps/frappe/frappe/core/doctype/role row 14, after insert WARNING
 	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
-	clientroot = FrappeClient(server_tujuan, "Administrator", "aeron123")
+	clientroot = FrappeClient(server_tujuan, "Administrator", "admin")
 	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
 	doc = frappe.get_doc(self.doctype, self.name)
 	pr_doc = {}
@@ -27,7 +27,61 @@ def sync_role_master(self, method):
 		clientroot.insert(pr_doc)
 
 @frappe.whitelist()
+def sync_master_after_submit(self, method):
+	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
+	clientroot = FrappeClient(server_tujuan, "Administrator", "admin")
+
+	# frappe.throw(clientroot.get_doc("Company","Jungle"))
+	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
+
+	doc = frappe.get_doc(self.doctype, self.name)
+
+	kolom_parent_after_submit = frappe.db.sql(""" SELECT td.fieldname
+	FROM `tabDocField` td
+	WHERE parent = "{}" 
+	AND allow_on_submit = 1
+	GROUP BY td.`fieldname`
+	ORDER BY OPTIONS; """.format(self.doctype))
+
+	pr_doc = {}
+	for rowkolom in kolom_parent_after_submit:
+		if str(rowkolom[0]) != "docstatus":
+			if str(doc.get(str(rowkolom[0]))) != "None" :
+				if not docu_tujuan:
+					pr_doc.update({ (rowkolom[0]) : str(doc.get(str(rowkolom[0]))) })
+				elif str(rowkolom[0]) != "creation" and str(rowkolom[0]) != "modified":
+					pr_doc.update({ (rowkolom[0]) : str(doc.get(str(rowkolom[0]))) })
+
+	pr_doc.update({ "doctype": doc.doctype })
+	pr_doc.update({ "name": doc.name })
+	# pr_doc_items = []
+	# for temp_baris_item in self.uoms :
+	# 	pr_doc_items.append({
+	# 		"uom" : temp_baris_item.uom,
+	# 		"conversion_factor" : temp_baris_item.conversion_factor,
+
+	# 	})
+	# pr_doc.update({ "uoms": pr_doc_items })
+	# stringdoc = (str(pr_doc)).replace(" u'","'")
+	# stringdoc = stringdoc.replace("'", '"')
+	# stringdoc = stringdoc.replace("'", '"')
+	# stringdoc = stringdoc.replace("{u", "{")
+
+	# frappe.throw(stringdoc) 
+	# d = json.dumps(stringdoc)
+	
+	# frappe.throw(str(pr_doc))
+
+	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
+	if docu_tujuan:
+		clientroot.update(pr_doc)
+	else:
+		clientroot.insert(pr_doc)
+
+@frappe.whitelist()
 def sync_master(self, method):
+
+
 	server_tujuan = frappe.db.get_single_value("Sync Server Settings", "server_tujuan")
 	clientroot = FrappeClient(server_tujuan, "Administrator", "admin")
 
@@ -36,6 +90,10 @@ def sync_master(self, method):
 	
 	doc = frappe.get_doc(self.doctype, self.name)
 	
+
+	if doc.get("docstatus") == 1:
+		return
+
 	if doc.get("amended_from"):
 		return
 
@@ -53,6 +111,7 @@ def sync_master(self, method):
 		WHERE parent = "{}" AND fieldtype = "Table"
 		ORDER BY OPTIONS """.format(self.doctype))
 	
+
 	pr_doc = {}
 
 	# for temp_baris_item in self.get("uoms") :
@@ -110,8 +169,6 @@ def sync_master(self, method):
 	# frappe.throw(stringdoc) 
 	# d = json.dumps(stringdoc)
 	
-	# frappe.throw(str(pr_doc))
-
 	docu_tujuan = clientroot.get_value(self.doctype, "name", {"name":self.name})
 	if docu_tujuan:
 		clientroot.update(pr_doc)
